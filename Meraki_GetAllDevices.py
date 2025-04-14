@@ -14,10 +14,10 @@ load_dotenv(dotenv_path=env_path)
 tenant_id = os.getenv('AZURE_TENANT_ID')
 client_id = os.getenv('AZURE_CLIENT_ID')
 client_secret = os.getenv('AZURE_CLIENT_SECRET')
+key_vault_name = os.getenv('AZURE_KEY_VAULT')
 organization_id = os.getenv('ORGANIZATION_ID')
 
 # Connect to Azure Key Vault to get the Meraki API key
-key_vault_name = "infra-keyvault-prod-kv"
 kv_uri = f"https://{key_vault_name}.vault.azure.net"
 credential = ClientSecretCredential(tenant_id, client_id, client_secret)
 client = SecretClient(vault_url=kv_uri, credential=credential)
@@ -30,8 +30,11 @@ dashboard = meraki.DashboardAPI(API_KEY, suppress_logging=True)
 devices = dashboard.organizations.getOrganizationDevices(organization_id)
 
 # Define output file path
-folder_path = 'Python_Scripts/Meraki/Output'
+script_dir = os.path.dirname(os.path.abspath(__file__))
+folder_path = os.path.join(script_dir, 'Output')
+os.makedirs(folder_path, exist_ok=True)
 csv_file_name = os.path.join(folder_path, 'devices.csv')
+
 
 # Write device details to CSV
 def write_to_csv(devices, filename=csv_file_name):
