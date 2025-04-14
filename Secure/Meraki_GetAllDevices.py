@@ -6,7 +6,7 @@ from azure.identity import ClientSecretCredential
 from azure.keyvault.secrets import SecretClient
 
 # ========================================
-# 🔐 Load secrets from .env
+# Load secrets from .env
 # ========================================
 env_path = os.path.join(os.path.dirname(__file__), '../../.env')
 print(f"Loading .env file from: {env_path}")
@@ -19,7 +19,7 @@ key_vault_name = os.getenv('AZURE_KEY_VAULT')
 organization_id = os.getenv('ORGANIZATION_ID')
 
 # ========================================
-# 🔑 Authenticate to Azure Key Vault
+# Authenticate to Azure Key Vault
 # ========================================
 kv_uri = f"https://{key_vault_name}.vault.azure.net"
 credential = ClientSecretCredential(tenant_id, client_id, client_secret)
@@ -29,17 +29,17 @@ client = SecretClient(vault_url=kv_uri, credential=credential)
 API_KEY = client.get_secret("Meraki-API").value
 
 # ========================================
-# 📡 Connect to Meraki Dashboard API
+# Connect to Meraki Dashboard API
 # ========================================
 dashboard = meraki.DashboardAPI(API_KEY, suppress_logging=True)
 
 # ========================================
-# 🧾 Fetch all devices from the org
+# Fetch all devices from the org
 # ========================================
 devices = dashboard.organizations.getOrganizationDevices(organization_id)
 
 # ========================================
-# 📂 Set up CSV output file
+# Set up CSV output file
 # ========================================
 script_dir = os.path.dirname(os.path.abspath(__file__))
 folder_path = os.path.join(script_dir, 'Output')
@@ -47,7 +47,7 @@ os.makedirs(folder_path, exist_ok=True)
 csv_file_name = os.path.join(folder_path, 'devices.csv')
 
 # ========================================
-# ✍️ Write Meraki device data to CSV
+# Write Meraki device data to CSV
 # ========================================
 def write_to_csv(devices, filename=csv_file_name):
     with open(filename, mode='w', newline='') as file:
@@ -68,7 +68,7 @@ def write_to_csv(devices, filename=csv_file_name):
             ])
 
 # ========================================
-# 🚀 Run the export
+# Run the export
 # ========================================
 write_to_csv(devices)
 print(f"✅ CSV file created at: {csv_file_name}")
