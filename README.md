@@ -1,5 +1,10 @@
 # CiscoTechDayDemo 🔧 Meraki Automation Demo | Presented at Cisco Tech Days Milwaukee, 2025
 
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+![Maintained](https://img.shields.io/badge/maintained-yes-brightgreen)
+![Status](https://img.shields.io/badge/demo-live-blue)
+
 This repo showcases how you can automate real-world Meraki workflows using Python and the Meraki Dashboard API — from basic inventory pulls to proactive network health checks.
 
 ---
