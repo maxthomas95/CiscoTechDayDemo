@@ -44,6 +44,7 @@ EMAIL_RECIPIENT=
 
 ## 📂 File Structure
 
+```text
 CiscoTechDayDemo/
 ├── Python_Scripts/
 │   └── Meraki/
@@ -54,8 +55,7 @@ CiscoTechDayDemo/
 │           └── meraki_errors.csv
 ├── .env  (not committed)
 └── README.md
-
-
+```
 
 ---
 
