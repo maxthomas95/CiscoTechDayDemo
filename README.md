@@ -43,6 +43,8 @@ This project includes two core scripts — each available in:
 
 ## 🛠 Requirements
 
+### For Secure Versions (Azure Key Vault)
+
 - Python 3.8+  
 - Azure service principal credentials with access to Key Vault  
 - A Meraki API key stored in Azure Key Vault  
@@ -60,17 +62,17 @@ EMAIL_RECIPIENT=
 ```
 ---
 
-
-## 🧑‍💻 Getting Started (Basic Versions)
+### For Basic Versions (Quick Start)
 
 Just want to test things quickly without setting up Azure Key Vault?
 
-Use the scripts under `Python_Scripts/Meraki/Basic/` and create a simple `.env` file like this:
-
+- Python 3.8+
+- `.env` file with:
 ```env
 MERAKI_API_KEY=your_api_key_here
 ORGANIZATION_ID=your_org_id_here
 ```
+
 Only needed for the health check script — add these too:
 
 ```env
