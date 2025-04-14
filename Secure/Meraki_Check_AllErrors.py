@@ -11,7 +11,7 @@ from email import encoders
 from datetime import datetime
 
 # ========================================
-# 🔐 Load secrets from Azure + .env
+# Load secrets from Azure + .env
 # ========================================
 env_path = os.path.join(os.path.dirname(__file__), '../../.env')
 print(f"Loading .env file from: {env_path}")
@@ -28,7 +28,7 @@ key_vault_name = os.getenv('AZURE_KEY_VAULT')
 organization_id = os.getenv('ORGANIZATION_ID')
 
 # ========================================
-# 🔑 Connect to Azure Key Vault & get Meraki API key
+# Connect to Azure Key Vault & get Meraki API key
 # ========================================
 kv_uri = f"https://{key_vault_name}.vault.azure.net"
 credential = ClientSecretCredential(tenant_id, client_id, client_secret)
@@ -36,12 +36,12 @@ client = SecretClient(vault_url=kv_uri, credential=credential)
 API_KEY = client.get_secret("Meraki-API").value
 
 # ========================================
-# 🧠 Initialize Meraki API Client
+# Initialize Meraki API Client
 # ========================================
 dashboard = meraki.DashboardAPI(API_KEY, suppress_logging=True)
 
 # ========================================
-# 📂 Output CSV setup
+# Output CSV setup
 # ========================================
 script_dir = os.path.dirname(os.path.abspath(__file__))
 output_dir = os.path.join(script_dir, 'Output')
@@ -50,7 +50,7 @@ timestamp = datetime.now().strftime("%Y%m%d_%H%M")
 CSV_FILE = os.path.join(output_dir, f'meraki_errors_{timestamp}.csv')
 
 # ========================================
-# 🧼 Clean network list (no ATM/HE networks)
+# Clean network list (no ATM/HE networks)
 # ========================================
 def get_all_networks():
     try:
@@ -64,7 +64,7 @@ def get_all_networks():
         return []
 
 # ========================================
-# 🧾 Helper: Write a row for 169.x.x.x clients
+# Helper: Write a row for 169.x.x.x clients
 # ========================================
 def write_169_row(writer, network_name, device_name, client):
     ip = client.get('ip') or client.get('recentDeviceIp')
@@ -77,7 +77,7 @@ def write_169_row(writer, network_name, device_name, client):
     ])
 
 # ========================================
-# 🔎 Check for clients with 169.x.x.x IPs
+# Check for clients with 169.x.x.x IPs
 # ========================================
 def find_169_client_ips(writer, networks):
     try:
@@ -102,7 +102,7 @@ def find_169_client_ips(writer, networks):
         print(f"[ERROR] 169 IP check failed: {e}")
 
 # ========================================
-# ⚠️ Check MS switches for port errors/warnings
+# ⚠Check MS switches for port errors/warnings
 # ========================================
 def check_port_status(network_id, writer):
     try:
@@ -129,7 +129,7 @@ def check_port_status(network_id, writer):
         print(f"[ERROR] Port check failed: {e}")
 
 # ========================================
-# 🔁 Run switch port check across all valid networks
+# Run switch port check across all valid networks
 # ========================================
 def check_all_networks(writer, networks):
     for network in networks:
@@ -137,7 +137,7 @@ def check_all_networks(writer, networks):
         check_port_status(network['id'], writer)
 
 # ========================================
-# 📧 Email CSV report as attachment
+# Email CSV report as attachment
 # ========================================
 def send_email(csv_file):
     msg = MIMEMultipart()
@@ -157,7 +157,7 @@ def send_email(csv_file):
         print(f"Email sent to {email_recipient}")
 
 # ========================================
-# 🚀 Main function — orchestrates everything
+# Main function — orchestrates everything
 # ========================================
 def main():
     networks = get_all_networks()  # Fetch once, reuse
