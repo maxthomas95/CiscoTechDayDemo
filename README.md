@@ -17,12 +17,12 @@ This project includes two core scripts — each available in:
 
 **Purpose:** Pull a full device inventory from your Meraki organization and save it to CSV.
 
-- **🔹 Basic:** [`Meraki_Audit_DeviceInventory_basic.py`](./Python_Scripts/Meraki/Basic/Meraki_Audit_DeviceInventory_basic.py)  
+- **🔹 Basic:** [`Meraki_GetAllDevices_basic.py`](./Basic/Meraki_GetAllDevices_basic.py)  
   Quickly pulls a full device inventory from your Meraki organization and saves it to a CSV.  
   Uses `.env` for API key and Org ID — no external dependencies.  
   *Perfect for audits, asset tracking, DevNet learners.*
 
-- **🔐 Secure:** [`Meraki_Audit_DeviceInventory.py`](./Python_Scripts/Meraki/Secure/Meraki_Audit_DeviceInventory.py)  
+- **🔐 Secure:** [`Meraki_GetAllDevices.py`](./Secure/Meraki_GetAllDevices.py)  
   Same inventory logic — but securely pulls secrets from Azure Key Vault and uses a service principal to authenticate.
 
 ---
@@ -31,12 +31,12 @@ This project includes two core scripts — each available in:
 
 **Purpose:** Identify issues like 169.x.x.x IPs and Meraki switch port errors.
 
-- **🔹 Basic:** [`Meraki_Check_AllErrors_basic.py`](./Python_Scripts/Meraki/Basic/Meraki_Check_AllErrors_basic.py)  
+- **🔹 Basic:** [`Meraki_Check_AllErrors_basic.py`](./Basic/Meraki_Check_AllErrors_basic.py)  
   Scans Meraki clients for `169.x.x.x` IPs and MS switch ports for error/warning flags.  
   Sends the results via email as a CSV attachment.  
   *Great for weekly network health checks, monitoring, and proactive support.*
 
-- **🔐 Secure:** [`Meraki_Check_AllErrors.py`](./Python_Scripts/Meraki/Secure/Meraki_Check_AllErrors.py)  
+- **🔐 Secure:** [`Meraki_Check_AllErrors.py`](./Secure/Meraki_Check_AllErrors.py)  
   Production-ready version with cloud-based secrets, environment filtering, and improved handling for enterprise use.
 
 ---
@@ -85,31 +85,40 @@ EMAIL_RECIPIENT=someone@yourdomain.com
 
 ## 🔐 For Production Use
 
-If you’re ready to build something secure and scalable, check out the versions under `Secure/` which use:
-- Azure Key Vault for secrets
-- Service principal auth
-- Better exception handling and modular code
+The secure versions in `Secure/` are designed for real-world environments. They include:
+
+- Azure Key Vault for managing API secrets
+- Service principal authentication
+- More robust error handling and structure
+
+Ideal for scaling, integrating into pipelines, or enforcing security best practices.
 
 ---
 
 ## 📂 File Structure
 
+This is how the GitHub demo is organized for clarity and ease of use:
+
 ```text
 CiscoTechDayDemo/
-├── Python_Scripts/
-│   └── Meraki/
-│       ├── Secure/
-│       │   ├── Meraki_Audit_DeviceInventory.py
-│       │   ├── Meraki_Check_AllErrors.py
-│       ├── Basic/
-│       │   ├── Meraki_Audit_DeviceInventory_basic.py
-│       │   ├── Meraki_Check_AllErrors_basic.py
-│       └── Output/
-│           ├── devices.csv
-│           └── meraki_errors.csv
+├── Secure/
+│   ├── Meraki_Audit_DeviceInventory.py
+│   ├── Meraki_Check_AllErrors.py
+├── Basic/
+│   ├── Meraki_Audit_DeviceInventory_basic.py
+│   ├── Meraki_Check_AllErrors_basic.py
 ├── .env.example
 └── README.md
 ```
+
+📤 Output Note:  
+Each script writes its CSV output (e.g., `devices.csv`, `meraki_errors.csv`) to an `Output/` folder located in the same directory as the script.  
+The folder is automatically created if it doesn't already exist.  
+You can customize the path by modifying the `output_dir` variable inside the script.
+
+💡 Custom Layouts:
+This structure is optimized for demo and learning purposes.
+If you're integrating into a larger environment (like Azure DevOps), feel free to move scripts into a /scripts/ or /infra/ folder to fit your standards.
 
 ---
 
