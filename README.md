@@ -1,24 +1,43 @@
 # CiscoTechDayDemo 🔧 Meraki Automation Demo | Presented at Cisco Tech Days Milwaukee, 2025
 
-This repo demonstrates real-world Meraki automation techniques using Python and Azure Key Vault. It includes two example scripts designed to improve visibility, reduce manual work, and showcase what’s possible with just a bit of code.
+This repo showcases how you can automate real-world Meraki workflows using Python and the Meraki Dashboard API — from basic inventory pulls to proactive network health checks.
 
 ---
 
-## 🚀 What It Does
+## 🚀 What’s Inside
 
-### ✅ Audit Script: `Meraki_GetAllDevices.py`
-- Authenticates securely to Azure using a service principal  
-- Retrieves a Meraki API key from Azure Key Vault  
-- Connects to the Meraki Dashboard API  
-- Fetches all devices in a specified organization  
-- Exports a CSV with device info: Name, Model, Serial, MAC, Status, IP, Firmware  
+This project includes two core scripts — each available in:
 
-### 🔍 Health Check Script: `Meraki_Check_AllErrors.py`
-- Scans Meraki clients for `169.x.x.x` IP addresses (common DHCP issue)  
-- Analyzes MS switch ports for any warnings or error flags  
-- Skips certain networks by naming convention (`ATM-`, `#`, etc.)  
-- Writes a unified CSV report of client anomalies and port issues  
-- Emails the report automatically to a designated recipient  
+- A **basic version** for beginners or quick testing (no Azure setup needed)
+- A **secure version** using Azure Key Vault for real-world deployments
+
+---
+
+### ✅ Audit Script
+
+**Purpose:** Pull a full device inventory from your Meraki organization and save it to CSV.
+
+- **🔹 Basic:** [`Meraki_Audit_DeviceInventory_basic.py`](./Python_Scripts/Meraki/Basic/Meraki_Audit_DeviceInventory_basic.py)  
+  Quickly pulls a full device inventory from your Meraki organization and saves it to a CSV.  
+  Uses `.env` for API key and Org ID — no external dependencies.  
+  *Perfect for audits, asset tracking, DevNet learners.*
+
+- **🔐 Secure:** [`Meraki_Audit_DeviceInventory.py`](./Python_Scripts/Meraki/Secure/Meraki_Audit_DeviceInventory.py)  
+  Same inventory logic — but securely pulls secrets from Azure Key Vault and uses a service principal to authenticate.
+
+---
+
+### 🔍 Health Check Script
+
+**Purpose:** Identify issues like 169.x.x.x IPs and Meraki switch port errors.
+
+- **🔹 Basic:** [`Meraki_Check_AllErrors_basic.py`](./Python_Scripts/Meraki/Basic/Meraki_Check_AllErrors_basic.py)  
+  Scans Meraki clients for `169.x.x.x` IPs and MS switch ports for error/warning flags.  
+  Sends the results via email as a CSV attachment.  
+  *Great for weekly network health checks, monitoring, and proactive support.*
+
+- **🔐 Secure:** [`Meraki_Check_AllErrors.py`](./Python_Scripts/Meraki/Secure/Meraki_Check_AllErrors.py)  
+  Production-ready version with cloud-based secrets, environment filtering, and improved handling for enterprise use.
 
 ---
 
@@ -39,6 +58,35 @@ SMTP_PORT=
 EMAIL_USER=
 EMAIL_RECIPIENT=
 ```
+---
+
+
+## 🧑‍💻 Getting Started (Basic Versions)
+
+Just want to test things quickly without setting up Azure Key Vault?
+
+Use the scripts under `Python_Scripts/Meraki/Basic/` and create a simple `.env` file like this:
+
+```env
+MERAKI_API_KEY=your_api_key_here
+ORGANIZATION_ID=your_org_id_here
+```
+Only needed for the health check script — add these too:
+
+```env
+SMTP_SERVER=smtp.yourdomain.com
+SMTP_PORT=587
+EMAIL_USER=you@yourdomain.com
+EMAIL_RECIPIENT=someone@yourdomain.com
+```
+---
+
+## 🔐 For Production Use
+
+If you’re ready to build something secure and scalable, check out the versions under `Secure/` which use:
+- Azure Key Vault for secrets
+- Service principal auth
+- Better exception handling and modular code
 
 ---
 
@@ -48,12 +96,16 @@ EMAIL_RECIPIENT=
 CiscoTechDayDemo/
 ├── Python_Scripts/
 │   └── Meraki/
-│       ├── Meraki_Audit_DeviceInventory.py
-│       ├── Meraki_Check_AllErrors.py
+│       ├── Secure/
+│       │   ├── Meraki_Audit_DeviceInventory.py
+│       │   ├── Meraki_Check_AllErrors.py
+│       ├── Basic/
+│       │   ├── Meraki_Audit_DeviceInventory_basic.py
+│       │   ├── Meraki_Check_AllErrors_basic.py
 │       └── Output/
 │           ├── devices.csv
 │           └── meraki_errors.csv
-├── .env  (not committed)
+├── .env.example
 └── README.md
 ```
 
